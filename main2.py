@@ -494,138 +494,6 @@ def execute_sql(query: str):
     except Exception as e:
         return None, str(e)
 
-def create_landing_page():
-    """Create an attractive landing page"""
-    st.markdown("""
-    <div class="hero-container fade-in">
-        <div class="hero-title">💱 FX Analytics Hub</div>
-        <div class="hero-subtitle">
-            Transform natural language into powerful SQL insights.<br>
-            Query your FX trading data with the power of AI.
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Features section
-    st.markdown("""
-    <div class="features-grid fade-in">
-        <div class="feature-card">
-            <div class="feature-icon">🤖</div>
-            <div class="feature-title">AI-Powered Queries</div>
-            <div class="feature-description">
-                Ask questions in natural language and get instant SQL results powered by advanced AI
-            </div>
-        </div>
-        
-        <div class="feature-card">
-            <div class="feature-icon">📊</div>
-            <div class="feature-title">Interactive Visualizations</div>
-            <div class="feature-description">
-                Create dynamic charts and graphs with real-time controls and export capabilities
-            </div>
-        </div>
-        
-        <div class="feature-card">
-            <div class="feature-icon">⚡</div>
-            <div class="feature-title">Lightning Fast</div>
-            <div class="feature-description">
-                Get instant results from your FX trading database with optimized query execution
-            </div>
-        </div>
-        
-        <div class="feature-card">
-            <div class="feature-icon">🔒</div>
-            <div class="feature-title">Secure & Reliable</div>
-            <div class="feature-description">
-                Your data stays safe with enterprise-grade security and reliable performance
-            </div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Quick start section
-    st.markdown('<div class="main-container slide-up">', unsafe_allow_html=True)
-    st.markdown("### 🚀 Quick Start Examples")
-    st.markdown("Click on any example below to get started:")
-    
-    examples = [
-        {
-            "title": "📈 Trading Volume Analysis",
-            "description": "Show total notional by product type",
-            "query": "Show total notional by product type"
-        },
-        {
-            "title": "🏆 Top Performers",
-            "description": "Find top 5 currency pairs by volume",
-            "query": "Top 5 currency pairs by volume"
-        },
-        {
-            "title": "🌍 Regional Insights",
-            "description": "Analyze trading activity by region",
-            "query": "Trading activity by region"
-        },
-        {
-            "title": "💰 Rate Analysis",
-            "description": "Calculate average rates by currency pair",
-            "query": "Average rates by currency pair"
-        },
-        {
-            "title": "📅 Time Series",
-            "description": "View monthly trading volumes",
-            "query": "Monthly trading volumes"
-        },
-        {
-            "title": "🔍 Custom Query",
-            "description": "Ask your own question",
-            "query": ""
-        }
-    ]
-    
-    # Create a grid of example cards
-    cols = st.columns(3)
-    for i, example in enumerate(examples):
-        with cols[i % 3]:
-            if st.button(
-                f"**{example['title']}**\n\n{example['description']}", 
-                key=f"example_{i}",
-                use_container_width=True
-            ):
-                if example['query']:
-                    st.session_state.user_question = example['query']
-                    st.session_state.show_landing = False
-                    st.rerun()
-                else:
-                    st.session_state.show_landing = False
-                    st.rerun()
-    
-    st.markdown('</div>', unsafe_allow_html=True)
-    
-    # Database info section
-    st.markdown('<div class="main-container slide-up">', unsafe_allow_html=True)
-    st.markdown("### 📊 Database Overview")
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.markdown("""
-        **🏦 Trades Table**
-        - Trade ID & Counterparty links
-        - Product types: Spot, Forward, Swap, NDF  
-        - Notional values & Currency pairs
-        - Near/Far leg dates & Execution rates
-        """)
-    
-    with col2:
-        st.markdown("""
-        **🏢 Counterparties Table**  
-        - Counterparty identification
-        - Company names & contact info
-        - Geographic regions
-        - Trading relationships
-        """)
-    
-    st.markdown('</div>', unsafe_allow_html=True)
-
 def create_interactive_visualization(df: pd.DataFrame, chart_key: str = "main"):
     """Create interactive visualization with real-time controls"""
     if df.empty:
@@ -937,45 +805,17 @@ def display_data_summary(df: pd.DataFrame):
     st.markdown('</div>', unsafe_allow_html=True)
 
 def create_navigation():
-    """Create top navigation bar with internal page routing"""
-    col1, col2, col3 = st.columns([1, 8, 1])
-    with col2:
-        st.markdown("""
-        <style>
-            .nav-bar {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                background-color: #0f111a;
-                padding: 1rem 2rem;
-                border-radius: 10px;
-                margin-bottom: 1.5rem;
-            }
-            .nav-logo {
-                font-size: 1.5rem;
-                font-weight: bold;
-                color: #64ffda;
-            }
-            .nav-links a {
-                margin-left: 1.5rem;
-                color: #ffffff;
-                text-decoration: none;
-                font-size: 1rem;
-            }
-            .nav-links a:hover {
-                text-decoration: underline;
-                color: #64ffda;
-            }
-        </style>
-        <div class="nav-bar">
-            <div class="nav-logo">💱 FX Analytics Hub</div>
-            <div class="nav-links">
-                <a href="#" onclick="window.location.href = '?page=home';">🏠 Home</a>
-                <a href="#" onclick="window.location.href = '?page=explore';">🔍 Explore</a>
-            </div>
+    """Create top navigation bar"""
+    st.markdown("""
+    <div class="nav-container fade-in">
+        <div class="nav-logo">💱 FX Analytics Hub</div>
+        <div class="nav-links">
+            <a href="#" class="nav-link" onclick="window.location.reload()">🏠 Home</a>
+            <a href="#features" class="nav-link">✨ Features</a>
+            <a href="#database" class="nav-link">📊 Database</a>
         </div>
-        """, unsafe_allow_html=True)
-
+    </div>
+    """, unsafe_allow_html=True)
 
 def create_sidebar():
     """Create enhanced sidebar"""
@@ -1071,11 +911,16 @@ def create_typing_animation(text: str, key: str):
     placeholder.markdown(f"**{text}**")
 
 def main():
+    st.set_page_config(
+        page_title="FX Analytics Hub - AI-Powered SQL Assistant",
+        layout="wide",
+        page_icon="💱",
+        initial_sidebar_state="expanded"
+    )
     
+    load_dark_theme_css()
     
     # Initialize session state
-    if "show_landing" not in st.session_state:
-        st.session_state.show_landing = True
     if "conversation_state" not in st.session_state:
         st.session_state.conversation_state = "asking"
     if "user_question" not in st.session_state:
@@ -1089,18 +934,10 @@ def main():
     if "final_question" not in st.session_state:
         st.session_state.final_question = ""
     
-    # Show landing page or main app
-    if st.session_state.show_landing:
-        create_navigation()
-        create_landing_page()
-        create_sidebar()
-        return
-    
     # Main application
     create_navigation()
     create_sidebar()
-
-def run_chat_page():
+    
     # Main conversation flow
     if st.session_state.conversation_state == "asking":
         # Initial question input
@@ -1151,8 +988,11 @@ def run_chat_page():
                 st.rerun()
         
         with col3:
-            if st.button("🏠 Home"):
-                st.session_state.show_landing = True
+            if st.button("🔄 Reset"):
+                st.session_state.conversation_state = "asking"
+                st.session_state.user_question = ""
+                st.session_state.query_data = None
+                st.session_state.sql_result = {}
                 st.rerun()
         
         st.markdown('</div>', unsafe_allow_html=True)
@@ -1260,8 +1100,11 @@ def run_chat_page():
                                 st.session_state.conversation_state = "asking"
                                 st.rerun()
                         with col2:
-                            if st.button("🏠 Start Over"):
-                                st.session_state.show_landing = True
+                            if st.button("🔄 Reset"):
+                                st.session_state.conversation_state = "asking"
+                                st.session_state.user_question = ""
+                                st.session_state.query_data = None
+                                st.session_state.sql_result = {}
                                 st.rerun()
                         return
                     else:
@@ -1299,53 +1142,17 @@ def run_chat_page():
                     st.rerun()
             
             with col2:
-                if st.button("🏠 Back to Home"):
-                    st.session_state.show_landing = True
-                    st.session_state.conversation_state = "asking"
-                    st.session_state.query_data = None
-                    st.rerun()
-            
-            with col3:
                 if st.button("📋 Copy SQL"):
                     st.code(result["sql"], language="sql")
                     st.success("✅ SQL query displayed above for copying!")
-    
-    
-def main():
-    st.set_page_config(
-        page_title="TalkDB — FX SQL Assistant",
-        layout="wide",
-        page_icon="💬",
-        initial_sidebar_state="expanded"
-    )
+            
+            with col3:
+                if st.button("🔄 Reset All"):
+                    st.session_state.conversation_state = "asking"
+                    st.session_state.user_question = ""
+                    st.session_state.query_data = None
+                    st.session_state.sql_result = {}
+                    st.rerun()
 
-    load_dark_theme_css()
-    create_navigation()
-    
-    # Handle URL param simulation for page routing
-    query_params = st.experimental_get_query_params()
-    page = query_params.get("page", ["home"])[0]
-
-    # Fallback in case session_state used previously
-    if "conversation_state" not in st.session_state:
-        st.session_state.conversation_state = "asking"
-    if "user_question" not in st.session_state:
-        st.session_state.user_question = ""
-    if "clarification_question" not in st.session_state:
-        st.session_state.clarification_question = ""
-    if "sql_result" not in st.session_state:
-        st.session_state.sql_result = {}
-    if "query_data" not in st.session_state:
-        st.session_state.query_data = None
-    if "final_question" not in st.session_state:
-        st.session_state.final_question = ""
-
-    # Routing based on selected page
-    if page == "home":
-        create_landing_page()
-        create_sidebar()
-    elif page == "explore":
-        create_sidebar()
-        run_chat_page()  # separate function containing your conversation flow
 if __name__ == "__main__":
     main()
