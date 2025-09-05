@@ -81,7 +81,7 @@ A:
 def generate_sql(user_question: str) -> dict:
     prompt = create_prompt(user_question)
     response = client.chat.completions.create(
-        model="llama3-70b-8192",
+        model="llama-3.3-70b-versatile",
         messages=[{"role": "user", "content": prompt}],
         temperature=0,
         max_tokens=350,
